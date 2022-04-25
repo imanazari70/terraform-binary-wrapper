@@ -4,7 +4,7 @@ from setuptools import setup
 
 TERRAFORM_VERSION = "1.0.3"
 
-RELEASE_VERSION = "1"
+RELEASE_VERSION = "2"
 
 __version__ = f"{TERRAFORM_VERSION}.post{RELEASE_VERSION}"
 
@@ -18,7 +18,7 @@ except ImportError:
     bdist_wheel = None
 
 setup(
-    name="terraform-binaryi-wrapper",
+    name="terraform-binary-wrapper",
     version=__version__,
     description="Python wrapper for Terraform",
     author="Iman Azari",

@@ -11,13 +11,15 @@ import platform
 BASE_DIR = os.path.dirname(__file__)
 TERRAFORM_VERSION = "1.0.3"
 TERRAFORM_EXECUTABLE_SYSTEM = os.path.join(sys.prefix, 'lib/terraform')
+TERRAFORM_EXECUTABLE_LOCAL_SYSTEM = os.path.join(sys.prefix, 'local/lib/terraform')
 TERRAFORM_EXECUTABLE_LOCAL = os.path.join(BASE_DIR, 'lib/terraform')
 TERRAFORM_EXECUTABLE = (
-    TERRAFORM_EXECUTABLE_SYSTEM
-    if os.path.exists(TERRAFORM_EXECUTABLE_SYSTEM)
+    TERRAFORM_EXECUTABLE_LOCAL_SYSTEM
+    if os.path.exists(TERRAFORM_EXECUTABLE_LOCAL_SYSTEM)
+    else TERRAFORM_EXECUTABLE_SYSTEM if os.path.exists(
+        TERRAFORM_EXECUTABLE_SYSTEM)
     else TERRAFORM_EXECUTABLE_LOCAL
 )
-
 
 def download(version=TERRAFORM_VERSION):
     platform_name = platform.system().lower()

@@ -1,4 +1,4 @@
-"""Python wrapper for Hashicorp's Terraform pre-built binary."""
+#!/usr/bin/env python
 
 import os
 import stat
@@ -7,16 +7,16 @@ import urllib.request
 import zipfile
 import platform
 
+from os.path import join
+from pathlib import Path
+
 
 BASE_DIR = os.path.dirname(__file__)
 TERRAFORM_VERSION = "1.0.3"
 TERRAFORM_EXECUTABLE_SYSTEM = os.path.join(sys.prefix, 'lib/terraform')
-TERRAFORM_EXECUTABLE_LOCAL_SYSTEM = os.path.join(sys.prefix, 'local/lib/terraform')
 TERRAFORM_EXECUTABLE_LOCAL = os.path.join(BASE_DIR, 'lib/terraform')
 TERRAFORM_EXECUTABLE = (
-    TERRAFORM_EXECUTABLE_LOCAL_SYSTEM
-    if os.path.exists(TERRAFORM_EXECUTABLE_LOCAL_SYSTEM)
-    else TERRAFORM_EXECUTABLE_SYSTEM if os.path.exists(
+    TERRAFORM_EXECUTABLE_SYSTEM if os.path.exists(
         TERRAFORM_EXECUTABLE_SYSTEM)
     else TERRAFORM_EXECUTABLE_LOCAL
 )
@@ -28,11 +28,12 @@ def download(version=TERRAFORM_VERSION):
     download_url = f"{base_url}/{file_name}"
 
     download_directory = "downloads"
-    extract_directory = "lib"
+    extract_directory = "terraform_binary_wrapper/lib"
     target_file = f"{download_directory}/{file_name}"
 
     os.makedirs(download_directory, exist_ok=True)
     os.makedirs(extract_directory, exist_ok=True)
+    Path(join(extract_directory, "__init__.py")).touch()
 
     urllib.request.urlretrieve(download_url, target_file)
 
